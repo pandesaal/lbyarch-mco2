@@ -1,12 +1,5 @@
 #include <stdio.h>
 
-//extern void hewo(); // asm function
-//int main() {
-//	
-//	hewo();
-//	return 0;
-//}
-
 extern float sdotComp(int size);
 
 int main() {
