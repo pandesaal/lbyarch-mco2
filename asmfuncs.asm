@@ -1,6 +1,5 @@
+
 section .data
-    vector1 db 1, 2, 3, 4       ; First vector
-    vector2 db 5, 6, 7, 8       ; Second vector
     sdot dd 0.0
 
 section .text
@@ -11,24 +10,24 @@ global sdotComp
 
 sdotComp:
     ;write your code here
+    ; rcx = arr1, rdx = arr2, r8 = size
     
     sub rsp, 8*5
-    xor r8, r8 ; r8 as counter
+    xor r11, r11 ; r11 as counter
     movss xmm5, [sdot] ; zmm4 = 0.0s
 
 comp:
-    cmp r8, rcx
+    cmp r11, r8
     jz compEnd
     
-    xor r9, r9
-    xor r10, r10
-    mov r9b, byte[vector1+r8] ;expand to 64bit
-    mov r10b, byte[vector2+r8] ;expand to 64bit
-    imul r9, r10
-    cvtsi2ss xmm4, r9
-    addss xmm5, xmm4
+    movss xmm6, [sdot]
+    movss xmm7, [sdot]
+    movss xmm6, dword[rcx+r11*4]
+    movss xmm7, dword[rdx+r11*4]
+    mulss xmm6, xmm7
+    addss xmm5, xmm6
     
-    inc r8
+    inc r11
     jmp comp
     
 compEnd:
