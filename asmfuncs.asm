@@ -21,8 +21,8 @@ comp:
     cmp r11, r8
     jz compEnd
     
-    movss xmm6, [sdot]
-    movss xmm7, [sdot]
+    movss xmm6, [init]
+    movss xmm7, [init]
     movss xmm6, dword[rcx+r11*4]
     movss xmm7, dword[rdx+r11*4]
     mulss xmm6, xmm7
