@@ -19,29 +19,31 @@ float* initArr() {
     }
     
     for (int i = 0; i < ARRMAX30; i++){
-    	arr[i] = 1.0;
+    	arr[i] = rand();
 	}
 	
 	return arr;
 }
 
 float kernelCompC(float *array1, float *array2, int size){
-	float res = 0;
+	float res = 0.0;
+	float mul = 0.0;
 	for (int i = 0; i < size; i++){
-		res += array1[i]*array2[i];
+		mul = array1[i]*array2[i];
+		res += mul;
 	}
 	
 	return res;
 }
 
-void run(float* arr, int n){
+void run(float *array1, float *array2, int n){
 	if (SANITY) {
-		float resC = kernelCompC(arr, arr, n);
+		float resC = kernelCompC(array1, array2, n);
 		printf("Dot product (C check):	 %f\n", resC);
 		
 		if (RUNWITHASM){
-			float resASM = sdotComp(arr, arr, n);
-			printf("Dot product (ASM check): %f\n", resASM);
+			float resASM = sdotComp(array1, array2, n);        
+			printf("Dot product (ASM check): %f\n", resASM);                                
 		}
 	}
 	
@@ -50,7 +52,7 @@ void run(float* arr, int n){
 	
 	for(int i = 0; i < REPEAT; i++) {
 		time(&startTime);
-		kernelCompC(arr, arr, n);
+		kernelCompC(array1, array2, n);
 		time(&endTime);
 		sumTime += difftime(endTime, startTime);
 	}
@@ -58,9 +60,12 @@ void run(float* arr, int n){
 	printf("Average computation time for n = %d (C, %dx): %lfs\n", n, REPEAT, avgTime);
 	
 	if (RUNWITHASM){
+		avgTime = 0.0;
+		sumTime = 0.0;
+		
 		for(int i = 0; i < REPEAT; i++) {
 			time(&startTime);
-			sdotComp(arr, arr, n);
+			sdotComp(array1, array2, n);
 			time(&endTime);
 			sumTime += difftime(endTime, startTime);
 		}
