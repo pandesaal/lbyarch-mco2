@@ -5,7 +5,9 @@
 
 int main() {
 	
-	float *arr = initArr();
+	srand(0);
+	float *arr1 = initArr();
+	float *arr2 = initArr();
 	
 	char choice = '0';
 	int n = 0;
@@ -20,25 +22,25 @@ int main() {
 		printf("[4] Custom length\n");
 		printf("[5] Exit\n");
 		printf("Enter choice: ");
-		scanf("%c", &choice);
+		scanf(" %c", &choice);
 		
 		switch (choice){
 			case '1':
 				n = ARRMAX20;
-				run(arr, n);
+				run(arr1, arr2, n);
 				break;
 			case '2':
 				n = ARRMAX24;
-				run(arr, n);
+				run(arr1, arr2, n);
 				break;
 			case '3':
 				n = ARRMAX30;
-				run(arr, n);
+				run(arr1, arr2, n);
 				break;
 			case '4':
 				printf("Enter length of vector: ");
 				scanf("%d", &n);
-				if (n > 0) run(arr, n);
+				if (n > 0) run(arr1, arr2, n);
 				else printf("Invalid input, please try again.\n");
 				break;
 			case '5':
@@ -50,6 +52,7 @@ int main() {
 		}
 	}
 	
-	free(arr);
+	free(arr1);
+	free(arr2);
 	return 0;
 }
