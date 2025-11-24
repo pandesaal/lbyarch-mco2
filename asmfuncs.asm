@@ -1,6 +1,7 @@
 
 section .data
     sdot dd 0.0
+    init dd 0.0
 
 section .text
 default rel
@@ -14,7 +15,7 @@ sdotComp:
     
     sub rsp, 8*5
     xor r11, r11 ; r11 as counter
-    movss xmm5, [sdot] ; zmm4 = 0.0s
+    movss xmm5, [init] ; zmm5 = 0.0s
 
 comp:
     cmp r11, r8
@@ -27,11 +28,14 @@ comp:
     mulss xmm6, xmm7
     addss xmm5, xmm6
     
+    movss [sdot], xmm5
+    movss xmm5, [init] ; zmm5 = 0.0s
+    movss xmm5, [sdot]
+    
     inc r11
     jmp comp
     
 compEnd:
-    movss [sdot], xmm5
     movss xmm0, [sdot]
     
     add rsp, 8*5
